@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FrameForge - Photo Frame & EXIF Editor</title>
+<meta name="description" content="FrameForge is a professional photo frame & EXIF editor. Display camera EXIF data, brand logos, color palettes with 12+ pro templates. 100% local processing.">
+<meta name="keywords" content="photo frame, EXIF viewer, photo border, camera watermark, EXIF display, photo frame editor">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#fff;--bg2:#f7f7f8;--surface:#fff;--border:#e8e8ec;
+  --text:#1a1a2e;--text2:#555;--text3:#999;
+  --accent:#7C4DFF;--accent-light:#f0ebff;--accent2:#6236cc;
+  --orange:#FF9500;
+  --radius:14px;--radius-sm:10px;
+  --shadow:0 2px 12px rgba(0,0,0,.06);--shadow-lg:0 8px 32px rgba(0,0,0,.08);
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* Fade-in */
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 24px}
+.nav-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-.3px;color:var(--text)}
+.nav-brand svg{width:30px;height:30px}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-links{display:flex;gap:24px;font-size:14px}
+.nav-links a{color:var(--text2);transition:color .2s;font-weight:500}
+.nav-links a:hover{color:var(--accent)}
+
+/* Lang toggle */
+.lang-toggle{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--border);font-size:13px;font-weight:500}
+.lang-toggle button{padding:5px 12px;border:none;background:transparent;color:var(--text3);cursor:pointer;transition:all .2s}
+.lang-toggle button.active{background:var(--accent);color:#fff}
+.lang-toggle button:hover:not(.active){background:var(--bg2)}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:140px 24px 100px;position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,var(--bg2) 100%)}
+.hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(124,77,255,.08) 0%,transparent 65%);pointer-events:none}
+.hero-inner{max-width:880px;text-align:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;border-radius:99px;border:1px solid rgba(124,77,255,.2);background:var(--accent-light);font-size:13px;color:var(--text2);margin-bottom:32px}
+.hero-badge span{color:var(--accent2);font-weight:700}
+.hero h1{font-size:clamp(34px,6vw,56px);font-weight:800;line-height:1.12;margin-bottom:22px;color:var(--text)}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent) 0%,#9c6dff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(16px,2.5vw,19px);color:var(--text2);max-width:660px;margin:0 auto 40px;line-height:1.8}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:44px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;border:none;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 20px rgba(124,77,255,.25)}
+.btn-primary:hover{box-shadow:0 8px 32px rgba(124,77,255,.35)}
+.btn-secondary{background:transparent;color:var(--accent);border:1.5px solid rgba(124,77,255,.3)}
+.btn-secondary:hover{border-color:var(--accent);background:var(--accent-light)}
+.btn svg{width:18px;height:18px;fill:currentColor}
+.hero-stats{display:flex;gap:36px;justify-content:center;flex-wrap:wrap;font-size:14px;color:var(--text3)}
+.hero-stats>div{display:flex;align-items:center;gap:7px}
+.hero-stats svg{width:16px;height:16px;fill:var(--accent)}
+.hero-preview{margin-top:48px;max-width:780px;margin-left:auto;margin-right:auto;border-radius:var(--radius);overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.12),0 2px 12px rgba(0,0,0,.06);border:1px solid var(--border)}
+.hero-preview img{width:100%;display:block}
+
+/* Section */
+.section{padding:100px 24px}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-label{font-size:13px;color:var(--accent2);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px}
+.section-title{font-size:clamp(24px,4vw,36px);font-weight:700;margin-bottom:16px;line-height:1.3;color:var(--text)}
+.section-desc{color:var(--text2);font-size:17px;max-width:680px;margin-bottom:52px;line-height:1.8}
+
+/* Pain points */
+.pains{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px}
+.pain-card{padding:32px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:border-color .3s,transform .3s,box-shadow .3s;box-shadow:var(--shadow)}
+.pain-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.pain-icon{width:48px;height:48px;border-radius:var(--radius-sm);background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:24px}
+.pain-card h3{font-size:18px;margin-bottom:8px;color:var(--text)}
+.pain-card p{color:var(--text2);font-size:15px;line-height:1.7}
+
+/* Features */
+.feature-block{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-bottom:100px}
+.feature-block:last-child{margin-bottom:0}
+.feature-block.reverse{direction:rtl}
+.feature-block.reverse>*{direction:ltr}
+.feature-text .section-title{margin-bottom:12px}
+.feature-text .section-desc{margin-bottom:28px;font-size:16px}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:16px}
+.feature-list li{display:flex;gap:12px;font-size:15px;color:var(--text2);line-height:1.7}
+.feature-list li strong{color:var(--text);display:block;margin-bottom:2px}
+.feature-list li::before{content:'✓';flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--accent-light);color:var(--accent2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:3px}
+.feature-img{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);aspect-ratio:4/3;background:#1a1a2e;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.feature-img img{width:100%;height:100%;object-fit:cover;border-radius:calc(var(--radius) - 1px)}
+
+/* Promise */
+.promise-section{background:var(--bg2)}
+.promises{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.promise-card{padding:32px 24px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border);text-align:center;transition:border-color .3s,box-shadow .3s;box-shadow:var(--shadow)}
+.promise-card:hover{border-color:rgba(124,77,255,.3);box-shadow:var(--shadow-lg)}
+.promise-card h3{font-size:17px;margin-bottom:10px;color:var(--text)}
+.promise-card p{color:var(--text2);font-size:14px;line-height:1.7}
+
+/* CTA */
+.cta{text-align:center;padding:120px 24px;position:relative;overflow:hidden;background:var(--bg2)}
+.cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(124,77,255,.06) 0%,transparent 60%);pointer-events:none}
+.cta h2{font-size:clamp(24px,4vw,36px);font-weight:700;margin-bottom:16px;position:relative;z-index:1;color:var(--text)}
+.cta p{color:var(--text2);font-size:17px;margin-bottom:40px;position:relative;z-index:1}
+
+/* Floating CTA */
+.floating-cta{position:fixed;bottom:24px;right:24px;z-index:99;opacity:0;transform:translateY(20px);transition:opacity .4s,transform .4s;pointer-events:none}
+.floating-cta.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.floating-cta .btn{box-shadow:0 4px 24px rgba(124,77,255,.35)}
+
+/* Footer */
+.footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;color:var(--text3);font-size:13px;background:var(--bg2)}
+.footer a{color:var(--text2);transition:color .2s}
+.footer a:hover{color:var(--accent)}
+
+/* Responsive */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .feature-block{grid-template-columns:1fr;gap:32px}
+  .feature-block.reverse{direction:ltr}
+  .hero-stats{gap:16px;font-size:13px}
+  .section{padding:64px 20px}
+  .feature-block{margin-bottom:64px}
+  .floating-cta{bottom:16px;right:16px}
+  .floating-cta .btn{padding:8px 16px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <svg viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="6" fill="#7C4DFF"/><rect x="6" y="6" width="20" height="20" rx="3" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M20 22l4-4v6h-6z" fill="#FF9500"/></svg>
+      FrameForge
+    </a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#features" data-i18n="nav_features">功能特性</a>
+        <a href="#philosophy" data-i18n="nav_promise">我们的承诺</a>
+        <a href="https://chromewebstore.google.com/detail/ihemgdpclcfmjmepdaaefcmihmedanin" target="_blank" data-i18n="nav_install">安装扩展</a>
+      </div>
+      <div class="lang-toggle">
+        <button id="langZh" class="active" onclick="switchLang('zh')">中文</button>
+        <button id="langEn" onclick="switchLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span data-i18n="hero_badge_tag">Chrome 扩展</span> · <span data-i18n="hero_badge_pro">专业</span> · <span data-i18n="hero_badge_privacy">隐私优先</span> · 100% <span data-i18n="hero_badge_local">本地处理</span>
+    </div>
+    <h1 data-i18n-html="hero_title">照片边框 & EXIF 编辑器，<br>让你的作品会说话</h1>
+    <p data-i18n="hero_desc">FrameForge 自动展示拍摄参数、相机品牌 Logo、主调色盘，用相机风格的精美边框让你的照片脱颖而出。所有处理在本地完成，照片从不离开你的电脑。</p>
+    <div class="hero-actions">
+      <a href="https://chromewebstore.google.com/detail/ihemgdpclcfmjmepdaaefcmihmedanin" target="_blank" class="btn btn-primary">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm-1.2 17.4l-1.4-1.4L7 18.4V6.6h10.8v7.2l-7.6 3.6z"/></svg>
+        <span data-i18n="hero_btn_install">安装 Chrome 扩展</span>
+      </a>
+      <a href="#features" class="btn btn-secondary" data-i18n="hero_btn_more">了解更多 ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div><svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><span data-i18n="hero_stat_templates">12+ 专业模板</span></div>
+      <div><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span data-i18n="hero_stat_exif">EXIF 参数展示</span></div>
+      <div><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg><span data-i18n="hero_stat_local">100% 本地处理</span></div>
+    </div>
+    <div class="hero-preview fade-up">
+      <img src="img/hero-promo.jpg" alt="FrameForge Product Preview">
+    </div>
+  </div>
+</section>
+
+<!-- Pain Points -->
+<section class="section" id="pain-points">
+  <div class="section-inner">
+    <div class="section-label fade-up" data-i18n="pain_label">为什么需要 FrameForge</div>
+    <div class="section-title fade-up" data-i18n="pain_title">摄影师的痛点，我们懂</div>
+    <div class="section-desc fade-up" data-i18n="pain_desc">分享作品到社交媒体时，想让别人知道你的拍摄参数？用通用工具加边框太简陋？我们来解决。</div>
+    <div class="pains">
+      <div class="pain-card fade-up" onclick="document.getElementById('feat-templates').scrollIntoView({behavior:'smooth',block:'center'})">
+        <div class="pain-icon">🖼️</div>
+        <h3 data-i18n="pain1_title">通用工具太简陋</h3>
+        <p data-i18n="pain1_desc">Canva、PS 加边框功能很基础，没有相机风格专业模板，手动排 EXIF 参数又丑又累。</p>
+      </div>
+      <div class="pain-card fade-up" onclick="document.getElementById('philosophy').scrollIntoView({behavior:'smooth',block:'start'})">
+        <div class="pain-icon">🔒</div>
+        <h3 data-i18n="pain2_title">隐私令人担忧</h3>
+        <p data-i18n="pain2_desc">很多在线工具需要上传照片到服务器处理，你的隐私和作品安全完全不受控。</p>
+      </div>
+      <div class="pain-card fade-up" onclick="document.getElementById('feat-export').scrollIntoView({behavior:'smooth',block:'center'})">
+        <div class="pain-icon">⏱️</div>
+        <h3 data-i18n="pain3_title">逐张处理太低效</h3>
+        <p data-i18n="pain3_desc">每张照片都要重复调参数、加边框？FrameForge 支持批量处理，统一模板一次搞定。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section" id="features">
+  <div class="section-inner">
+
+    <!-- Templates -->
+    <div class="feature-block fade-up" id="feat-templates">
+      <div class="feature-text">
+        <div class="section-label" data-i18n="feat1_label">模板系统</div>
+        <h2 class="section-title" data-i18n="feat1_title">12+ 专业模板，一键生成相机风格边框</h2>
+        <p class="section-desc" data-i18n="feat1_desc">从经典竖排到胶片风格，每个模板都精心设计还原真实相机排版，让你的照片自带专业范。</p>
+        <ul class="feature-list">
+          <li><strong data-i18n="feat1_li1_t">经典竖排</strong> — <span data-i18n="feat1_li1_d">简约相机风格，EXIF 参数纵向排列</span></li>
+          <li><strong data-i18n="feat1_li2_t">宝丽来</strong> — <span data-i18n="feat1_li2_d">复古即影即有效果，怀旧质感</span></li>
+          <li><strong data-i18n="feat1_li3_t">胶片风格</strong> — <span data-i18n="feat1_li3_d">模拟胶片底片的独特质感和排版</span></li>
+          <li><strong data-i18n="feat1_li4_t">电影画幅</strong> — <span data-i18n="feat1_li4_d">宽银幕电影感排版，宽幅展示</span></li>
+          <li><strong data-i18n="feat1_li5_t">杂志风格</strong> — <span data-i18n="feat1_li5_d">精致排版，适合作品集和社交媒体</span></li>
+        </ul>
+      </div>
+      <div class="feature-img">
+        <img src="img/templates.jpg" alt="12+ Professional Templates" loading="lazy">
+      </div>
+    </div>
+
+    <!-- EXIF -->
+    <div class="feature-block reverse fade-up">
+      <div class="feature-text">
+        <div class="section-label" data-i18n="feat2_label">EXIF 展示</div>
+        <h2 class="section-title" data-i18n="feat2_title">自动读取 EXIF，最直观的参数展示</h2>
+        <p class="section-desc" data-i18n="feat2_desc">上传照片后自动读取全部拍摄参数，以相机风格精美展示在边框上，比任何纯 EXIF 查看器都直观。</p>
+        <ul class="feature-list">
+          <li><strong data-i18n="feat2_li1_t">自动读取</strong> — <span data-i18n="feat2_li1_d">相机品牌型号、镜头、焦距、光圈、快门速度、ISO 等全部参数</span></li>
+          <li><strong data-i18n="feat2_li2_t">品牌 Logo</strong> — <span data-i18n="feat2_li2_d">自动匹配相机品牌矢量 Logo，专业感拉满</span></li>
+          <li><strong data-i18n="feat2_li3_t">GPS 坐标</strong> — <span data-i18n="feat2_li3_d">支持显示拍摄地点经纬度（如 31.23°N 121.47°E）</span></li>
+          <li><strong data-i18n="feat2_li4_t">独立控制</strong> — <span data-i18n="feat2_li4_d">每项参数可单独显示或隐藏</span></li>
+        </ul>
+      </div>
+      <div class="feature-img">
+        <img src="img/exif-display.jpg" alt="EXIF Parameters + Brand Logo Display" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Color Palette -->
+    <div class="feature-block fade-up">
+      <div class="feature-text">
+        <div class="section-label" data-i18n="feat3_label">调色盘</div>
+        <h2 class="section-title" data-i18n="feat3_title">自动提取照片主色调</h2>
+        <p class="section-desc" data-i18n="feat3_desc">FrameForge 自动从照片中提取主色调，以精美色卡条展示在边框底部，让你的作品更具设计感。</p>
+        <ul class="feature-list">
+          <li><strong data-i18n="feat3_li1_t">自动提取</strong> — <span data-i18n="feat3_li1_d">智能算法自动识别照片主色调，无需手动选色</span></li>
+          <li><strong data-i18n="feat3_li2_t">色卡条</strong> — <span data-i18n="feat3_li2_d">专业色卡形式排列在边框底部</span></li>
+          <li><strong data-i18n="feat3_li3_t">灵活定制</strong> — <span data-i18n="feat3_li3_d">可调整色卡宽度、圆角、对齐方式</span></li>
+        </ul>
+      </div>
+      <div class="feature-img">
+        <img src="img/color-palette.jpg" alt="Color Palette Extraction Effect" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Customization -->
+    <div class="feature-block reverse fade-up">
+      <div class="feature-text">
+        <div class="section-label" data-i18n="feat4_label">深度定制</div>
+        <h2 class="section-title" data-i18n="feat4_title">每一个像素都可以调</h2>
+        <p class="section-desc" data-i18n="feat4_desc">12+ 可调参数，从字体到边框、从背景到阴影，所有元素都可以精细控制。</p>
+        <ul class="feature-list">
+          <li><strong data-i18n="feat4_li1_t">8 种字体</strong> — <span data-i18n="feat4_li1_d">Inter、Helvetica、Georgia 等精选字体，字距可调</span></li>
+          <li><strong data-i18n="feat4_li2_t">背景样式</strong> — <span data-i18n="feat4_li2_d">纯色、渐变（12 种预设 + 自定义）、模糊背景、透明</span></li>
+          <li><strong data-i18n="feat4_li3_t">边框定制</strong> — <span data-i18n="feat4_li3_d">边距、四角独立圆角、图片边框、投影效果</span></li>
+          <li><strong data-i18n="feat4_li4_t">滤镜调整</strong> — <span data-i18n="feat4_li4_d">亮度、对比度、饱和度、锐化、暗角、色温，实时直方图</span></li>
+        </ul>
+      </div>
+      <div class="feature-img">
+        <img src="img/customization.jpg" alt="Deep Customization Panel" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Export -->
+    <div class="feature-block fade-up" id="feat-export">
+      <div class="feature-text">
+        <div class="section-label" data-i18n="feat5_label">导出</div>
+        <h2 class="section-title" data-i18n="feat5_title">批量处理，高清导出</h2>
+        <p class="section-desc" data-i18n="feat5_desc">一次处理多张照片，统一模板一键导出，支持 JPG/PNG、DPI 注入、全分辨率输出。</p>
+        <ul class="feature-list">
+          <li><strong data-i18n="feat5_li1_t">批量处理</strong> — <span data-i18n="feat5_li1_d">多张照片同时处理，统一模板设置</span></li>
+          <li><strong data-i18n="feat5_li2_t">ZIP 打包</strong> — <span data-i18n="feat5_li2_d">批量导出自动打包为 ZIP 下载</span></li>
+          <li><strong data-i18n="feat5_li3_t">高清输出</strong> — <span data-i18n="feat5_li3_d">原图/高/中/低四档画质，支持 300/600 DPI</span></li>
+          <li><strong data-i18n="feat5_li4_t">格式灵活</strong> — <span data-i18n="feat5_li4_d">JPG 或 PNG，全分辨率不压缩</span></li>
+        </ul>
+      </div>
+      <div class="feature-img">
+        <img src="img/export.jpg" alt="Batch Export + ZIP Packaging" loading="lazy">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Philosophy -->
+<section class="section promise-section" id="philosophy">
+  <div class="section-inner">
+    <div class="section-label fade-up" style="text-align:center" data-i18n="promise_label">我们的承诺</div>
+    <div class="section-title fade-up" style="text-align:center" data-i18n="promise_title">纯粹、可靠、尊重用户</div>
+    <p class="section-desc fade-up" style="text-align:center;margin:0 auto 52px" data-i18n="promise_desc">这是 FrameForge 的核心承诺，也是我们做产品的初心。</p>
+    <div class="promises">
+      <div class="promise-card fade-up">
+        <h3>🔒 <span data-i18n="promise1_t">绝对隐私</span></h3>
+        <p data-i18n="promise1_d">所有图片处理在本地浏览器完成，照片从未离开你的电脑。不上传、不联网、不追踪。</p>
+      </div>
+      <div class="promise-card fade-up">
+        <h3>💰 <span data-i18n="promise2_t">免费使用</span></h3>
+        <p data-i18n="promise2_d">核心功能完全免费，无 VIP，无隐藏付费。提供纯粹、无打扰的创作体验。</p>
+      </div>
+      <div class="promise-card fade-up">
+        <h3>⚡ <span data-i18n="promise3_t">打开即用</span></h3>
+        <p data-i18n="promise3_d">无需登录或注册，Chrome 浏览器安装后立即使用，用完即走，不留痕迹。</p>
+      </div>
+      <div class="promise-card fade-up">
+        <h3>📷 <span data-i18n="promise4_t">高清导出</span></h3>
+        <p data-i18n="promise4_d">支持全分辨率输出、DPI 注入，满足社交分享和专业印刷，保证清晰锐利。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2 class="fade-up" data-i18n="cta_title">立即安装 FrameForge，让作品自己说话</h2>
+  <p class="fade-up" data-i18n="cta_desc">体验这款纯粹、强大、真正尊重你隐私的照片边框 & EXIF 编辑器。</p>
+  <div class="hero-actions fade-up">
+    <a href="https://chromewebstore.google.com/detail/ihemgdpclcfmjmepdaaefcmihmedanin" target="_blank" class="btn btn-primary">
+      <svg viewBox="0 0 24 24" style="fill:#fff"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm-1.2 17.4l-1.4-1.4L7 18.4V6.6h10.8v7.2l-7.6 3.6z"/></svg>
+      <span data-i18n="cta_btn">安装 Chrome 扩展</span>
+    </a>
+  </div>
+</section>
+
+<!-- Floating CTA -->
+<div class="floating-cta" id="floatingCta">
+  <a href="https://chromewebstore.google.com/detail/ihemgdpclcfmjmepdaaefcmihmedanin" target="_blank" class="btn btn-primary" style="padding:10px 20px;font-size:14px">
+    <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#fff"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm-1.2 17.4l-1.4-1.4L7 18.4V6.6h10.8v7.2l-7.6 3.6z"/></svg>
+    <span data-i18n="hero_btn_install">安装 Chrome 扩展</span>
+  </a>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>© 2026 FrameForge | <span data-i18n="footer_love">由热爱驱动</span> | <a href="https://sirhongzhu.github.io/frameforge-privacy/" target="_blank" data-i18n="footer_privacy">隐私政策</a></p>
+</footer>
+
+<script>
+const i18n = {
+  zh: {
+    nav_features: '功能特性', nav_promise: '我们的承诺', nav_install: '安装扩展',
+    hero_badge_tag: 'Chrome 扩展', hero_badge_pro: '专业', hero_badge_privacy: '隐私优先', hero_badge_local: '本地处理',
+    hero_title: '照片边框 & EXIF 编辑器，<br>让你的作品会说话',
+    hero_desc: 'FrameForge 自动展示拍摄参数、相机品牌 Logo、主调色盘，用相机风格的精美边框让你的照片脱颖而出。所有处理在本地完成，照片从不离开你的电脑。',
+    hero_btn_install: '安装 Chrome 扩展', hero_btn_more: '了解更多 ↓',
+    hero_stat_templates: '12+ 专业模板', hero_stat_exif: 'EXIF 参数展示', hero_stat_local: '100% 本地处理',
+    pain_label: '为什么需要 FrameForge', pain_title: '摄影师的痛点，我们懂',
+    pain_desc: '分享作品到社交媒体时，想让别人知道你的拍摄参数？用通用工具加边框太简陋？我们来解决。',
+    pain1_title: '通用工具太简陋', pain1_desc: 'Canva、PS 加边框功能很基础，没有相机风格专业模板，手动排 EXIF 参数又丑又累。',
+    pain2_title: '隐私令人担忧', pain2_desc: '很多在线工具需要上传照片到服务器处理，你的隐私和作品安全完全不受控。',
+    pain3_title: '逐张处理太低效', pain3_desc: '每张照片都要重复调参数、加边框？FrameForge 支持批量处理，统一模板一次搞定。',
+    feat1_label: '模板系统', feat1_title: '12+ 专业模板，一键生成相机风格边框',
+    feat1_desc: '从经典竖排到胶片风格，每个模板都精心设计还原真实相机排版，让你的照片自带专业范。',
+    feat1_li1_t: '经典竖排', feat1_li1_d: '简约相机风格，EXIF 参数纵向排列',
+    feat1_li2_t: '宝丽来', feat1_li2_d: '复古即影即有效果，怀旧质感',
+    feat1_li3_t: '胶片风格', feat1_li3_d: '模拟胶片底片的独特质感和排版',
+    feat1_li4_t: '电影画幅', feat1_li4_d: '宽银幕电影感排版，宽幅展示',
+    feat1_li5_t: '杂志风格', feat1_li5_d: '精致排版，适合作品集和社交媒体',
+    feat1_img: '12+ 专业模板预览',
+    feat2_label: 'EXIF 展示', feat2_title: '自动读取 EXIF，最直观的参数展示',
+    feat2_desc: '上传照片后自动读取全部拍摄参数，以相机风格精美展示在边框上，比任何纯 EXIF 查看器都直观。',
+    feat2_li1_t: '自动读取', feat2_li1_d: '相机品牌型号、镜头、焦距、光圈、快门速度、ISO 等全部参数',
+    feat2_li2_t: '品牌 Logo', feat2_li2_d: '自动匹配相机品牌矢量 Logo，专业感拉满',
+    feat2_li3_t: 'GPS 坐标', feat2_li3_d: '支持显示拍摄地点经纬度（如 31.23°N 121.47°E）',
+    feat2_li4_t: '独立控制', feat2_li4_d: '每项参数可单独显示或隐藏',
+    feat2_img: 'EXIF 参数 + 品牌 Logo 展示效果',
+    feat3_label: '调色盘', feat3_title: '自动提取照片主色调',
+    feat3_desc: 'FrameForge 自动从照片中提取主色调，以精美色卡条展示在边框底部，让你的作品更具设计感。',
+    feat3_li1_t: '自动提取', feat3_li1_d: '智能算法自动识别照片主色调，无需手动选色',
+    feat3_li2_t: '色卡条', feat3_li2_d: '专业色卡形式排列在边框底部',
+    feat3_li3_t: '灵活定制', feat3_li3_d: '可调整色卡宽度、圆角、对齐方式',
+    feat3_img: '调色盘提取效果展示',
+    feat4_label: '深度定制', feat4_title: '每一个像素都可以调',
+    feat4_desc: '12+ 可调参数，从字体到边框、从背景到阴影，所有元素都可以精细控制。',
+    feat4_li1_t: '8 种字体', feat4_li1_d: 'Inter、Helvetica、Georgia 等精选字体，字距可调',
+    feat4_li2_t: '背景样式', feat4_li2_d: '纯色、渐变（12 种预设 + 自定义）、模糊背景、透明',
+    feat4_li3_t: '边框定制', feat4_li3_d: '边距、四角独立圆角、图片边框、投影效果',
+    feat4_li4_t: '滤镜调整', feat4_li4_d: '亮度、对比度、饱和度、锐化、暗角、色温，实时直方图',
+    feat4_img: '深度定制面板效果',
+    feat5_label: '导出', feat5_title: '批量处理，高清导出',
+    feat5_desc: '一次处理多张照片，统一模板一键导出，支持 JPG/PNG、DPI 注入、全分辨率输出。',
+    feat5_li1_t: '批量处理', feat5_li1_d: '多张照片同时处理，统一模板设置',
+    feat5_li2_t: 'ZIP 打包', feat5_li2_d: '批量导出自动打包为 ZIP 下载',
+    feat5_li3_t: '高清输出', feat5_li3_d: '原图/高/中/低四档画质，支持 300/600 DPI',
+    feat5_li4_t: '格式灵活', feat5_li4_d: 'JPG 或 PNG，全分辨率不压缩',
+    feat5_img: '批量导出 + ZIP 打包',
+    promise_label: '我们的承诺', promise_title: '纯粹、可靠、尊重用户',
+    promise_desc: '这是 FrameForge 的核心承诺，也是我们做产品的初心。',
+    promise1_t: '绝对隐私', promise1_d: '所有图片处理在本地浏览器完成，照片从未离开你的电脑。不上传、不联网、不追踪。',
+    promise2_t: '免费使用', promise2_d: '核心功能完全免费，无 VIP，无隐藏付费。提供纯粹、无打扰的创作体验。',
+    promise3_t: '打开即用', promise3_d: '无需登录或注册，Chrome 浏览器安装后立即使用，用完即走，不留痕迹。',
+    promise4_t: '高清导出', promise4_d: '支持全分辨率输出、DPI 注入，满足社交分享和专业印刷，保证清晰锐利。',
+    cta_title: '立即安装 FrameForge，让作品自己说话',
+    cta_desc: '体验这款纯粹、强大、真正尊重你隐私的照片边框 & EXIF 编辑器。',
+    cta_btn: '安装 Chrome 扩展',
+    footer_love: '由热爱驱动', footer_privacy: '隐私政策'
+  },
+  en: {
+    nav_features: 'Features', nav_promise: 'Our Promise', nav_install: 'Install',
+    hero_badge_tag: 'Chrome Extension', hero_badge_pro: 'Professional', hero_badge_privacy: 'Privacy First', hero_badge_local: 'Local Processing',
+    hero_title: 'Photo Frame & EXIF Editor,<br>Let Your Work Speak',
+    hero_desc: 'FrameForge automatically displays shooting parameters, camera brand logos, and color palettes — wrapping your photos in stunning camera-style frames. Everything runs locally. Your photos never leave your device.',
+    hero_btn_install: 'Install Chrome Extension', hero_btn_more: 'Learn More ↓',
+    hero_stat_templates: '12+ Pro Templates', hero_stat_exif: 'EXIF Display', hero_stat_local: '100% Local Processing',
+    pain_label: 'Why FrameForge', pain_title: "We Understand Photographers' Pain",
+    pain_desc: 'Want to share your shooting parameters on social media? Generic tools are too basic? We solve this.',
+    pain1_title: 'Generic Tools Too Basic', pain1_desc: "Canva and Photoshop's frame features are rudimentary — no camera-style templates, and manually arranging EXIF data looks ugly and tedious.",
+    pain2_title: 'Privacy Concerns', pain2_desc: 'Many online tools require uploading your photos to their servers. Your privacy and artwork security are completely out of your control.',
+    pain3_title: 'One-by-One Processing', pain3_desc: 'Adjusting parameters and adding frames for every single photo? FrameForge supports batch processing with consistent template settings.',
+    feat1_label: 'Templates', feat1_title: '12+ Pro Templates, One-Click Camera-Style Frames',
+    feat1_desc: 'From classic vertical to film style, each template is carefully crafted to replicate authentic camera layouts, giving your photos a professional touch.',
+    feat1_li1_t: 'Classic Vertical', feat1_li1_d: 'Minimalist camera style with EXIF parameters arranged vertically',
+    feat1_li2_t: 'Polaroid', feat1_li2_d: 'Vintage instant-print effect with nostalgic feel',
+    feat1_li3_t: 'Film Style', feat1_li3_d: 'Authentic film negative texture and layout',
+    feat1_li4_t: 'Cinematic', feat1_li4_d: 'Widescreen cinematic framing, panoramic display',
+    feat1_li5_t: 'Magazine', feat1_li5_d: 'Refined typography, perfect for portfolios and social media',
+    feat1_img: '12+ Professional Templates Preview',
+    feat2_label: 'EXIF Display', feat2_title: 'Auto-Read EXIF, The Most Visual Parameter Display',
+    feat2_desc: 'Automatically reads all shooting data after upload and displays it beautifully in camera-style frames — more visual than any plain EXIF viewer.',
+    feat2_li1_t: 'Auto Read', feat2_li1_d: 'Camera make & model, lens, focal length, aperture, shutter speed, ISO, and more',
+    feat2_li2_t: 'Brand Logos', feat2_li2_d: 'Auto-matching vector camera manufacturer logos for a pro look',
+    feat2_li3_t: 'GPS Coordinates', feat2_li3_d: 'Display shooting location (e.g., 31.23°N 121.47°E)',
+    feat2_li4_t: 'Individual Control', feat2_li4_d: 'Show or hide each parameter independently',
+    feat2_img: 'EXIF Parameters + Brand Logo Display',
+    feat3_label: 'Color Palette', feat3_title: 'Auto-Extract Dominant Colors',
+    feat3_desc: 'FrameForge automatically extracts dominant colors from your photo and displays them as a beautiful color reference strip at the bottom of the frame.',
+    feat3_li1_t: 'Auto Extract', feat3_li1_d: 'Smart algorithm identifies dominant colors — no manual selection needed',
+    feat3_li2_t: 'Color Strip', feat3_li2_d: 'Professional color card layout at the frame bottom',
+    feat3_li3_t: 'Flexible', feat3_li3_d: 'Adjust color strip width, border radius, and alignment',
+    feat3_img: 'Color Palette Extraction Effect',
+    feat4_label: 'Customization', feat4_title: 'Every Pixel is Adjustable',
+    feat4_desc: '12+ adjustable parameters — from typography to borders, backgrounds to shadows, every element can be fine-tuned.',
+    feat4_li1_t: '8 Fonts', feat4_li1_d: 'Inter, Helvetica, Georgia and more — letter spacing adjustable',
+    feat4_li2_t: 'Background Styles', feat4_li2_d: 'Solid, gradient (12 presets + custom), blurred, transparent',
+    feat4_li3_t: 'Frame Options', feat4_li3_d: 'Margins, per-corner border radius, image frame, drop shadows',
+    feat4_li4_t: 'Filters', feat4_li4_d: 'Brightness, contrast, saturation, sharpen, vignette, color temp — with real-time histogram',
+    feat4_img: 'Deep Customization Panel',
+    feat5_label: 'Export', feat5_title: 'Batch Processing, HD Export',
+    feat5_desc: 'Process multiple photos at once with consistent template settings. Supports JPG/PNG, DPI injection, and full-resolution output.',
+    feat5_li1_t: 'Batch Process', feat5_li1_d: 'Handle multiple photos simultaneously with unified template settings',
+    feat5_li2_t: 'ZIP Download', feat5_li2_d: 'Auto-package batch exports as ZIP files',
+    feat5_li3_t: 'HD Output', feat5_li3_d: 'Original/High/Medium/Low quality, supports 300/600 DPI',
+    feat5_li4_t: 'Flexible Format', feat5_li4_d: 'JPG or PNG, full resolution with no compression',
+    feat5_img: 'Batch Export + ZIP Packaging',
+    promise_label: 'Our Promise', promise_title: 'Pure, Reliable, Respectful',
+    promise_desc: "These are FrameForge's core promises and the principles behind our product.",
+    promise1_t: 'Absolute Privacy', promise1_d: 'All image processing runs locally in your browser. Photos never leave your device. No uploads, no network, no tracking.',
+    promise2_t: 'Free to Use', promise2_d: 'Core features are completely free — no VIP, no hidden fees. A pure, distraction-free creative experience.',
+    promise3_t: 'Instant Start', promise3_d: 'No login or registration required. Install and start creating immediately. Use and go, no traces left.',
+    promise4_t: 'HD Export', promise4_d: 'Full-resolution output with DPI injection. Perfect for social sharing and professional printing.',
+    cta_title: 'Install FrameForge Now, Let Your Work Speak',
+    cta_desc: 'Experience this pure, powerful photo frame & EXIF editor that truly respects your privacy.',
+    cta_btn: 'Install Chrome Extension',
+    footer_love: 'Driven by Passion', footer_privacy: 'Privacy Policy'
+  }
+};
+
+let currentLang = 'zh';
+
+function switchLang(lang) {
+  currentLang = lang;
+  document.getElementById('langZh').classList.toggle('active', lang === 'zh');
+  document.getElementById('langEn').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang][key]) el.textContent = i18n[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+  });
+  document.title = lang === 'zh' ? 'FrameForge - 照片边框 & EXIF 编辑器 | 专业摄影师的选择' : 'FrameForge - Photo Frame & EXIF Editor | Professional Photographer\'s Choice';
+}
+
+// Intersection Observer for fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Floating CTA visibility
+const floatingCta = document.getElementById('floatingCta');
+window.addEventListener('scroll', () => {
+  floatingCta.classList.toggle('show', window.scrollY > 600);
+}, { passive: true });
+</script>
+</body>
+</html>
