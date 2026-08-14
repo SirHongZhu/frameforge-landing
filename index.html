@@ -7,6 +7,9 @@
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20x='2'%20y='2'%20width='28'%20height='28'%20rx='6'%20fill='%236C3CE8'/%3E%3Crect%20x='6'%20y='6'%20width='20'%20height='20'%20rx='3'%20fill='none'%20stroke='%23fff'%20stroke-width='1.5'/%3E%3Cpath%20d='M20%2022l4-4v6h-6z'%20fill='%23FF8C21'/%3E%3C/svg%3E">
 
+<!-- Preconnect -->
+<link rel="preconnect" href="https://ipapi.co" crossorigin>
+
 <!-- Primary Meta Tags -->
 <title>FrameForge - Photo Frame & EXIF Editor | Professional Camera Style Frames</title>
 <meta name="title" content="FrameForge - Photo Frame & EXIF Editor | Professional Camera Style Frames">
@@ -22,8 +25,10 @@
 <meta property="og:url" content="https://sirhongzhu.github.io/frameforge-landing/">
 <meta property="og:title" content="FrameForge - Photo Frame & EXIF Editor">
 <meta property="og:description" content="Add professional camera-style frames to your photos. Display EXIF parameters, brand logos, and color palettes. 12+ templates, 100% local processing.">
-<meta property="og:image" content="https://sirhongzhu.github.io/frameforge-landing/img/hero-promo.jpg">
+<meta property="og:image" content="https://sirhongzhu.github.io/frameforge-landing/img/og-image.jpg">
 <meta property="og:image:alt" content="FrameForge - Photo Frame & EXIF Editor product preview">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:site_name" content="FrameForge">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:locale:alternate" content="en_US">
@@ -33,7 +38,7 @@
 <meta name="twitter:url" content="https://sirhongzhu.github.io/frameforge-landing/">
 <meta name="twitter:title" content="FrameForge - Photo Frame & EXIF Editor">
 <meta name="twitter:description" content="Add professional camera-style frames to your photos. Display EXIF parameters, brand logos, and color palettes. 12+ templates, 100% local processing.">
-<meta name="twitter:image" content="https://sirhongzhu.github.io/frameforge-landing/img/hero-promo.jpg">
+<meta name="twitter:image" content="https://sirhongzhu.github.io/frameforge-landing/img/og-image.jpg">
 
 <!-- Structured Data -->
 <script type="application/ld+json">
@@ -119,7 +124,8 @@ img{max-width:100%;display:block}
 /* Hero preview */
 .hero-preview{margin-top:56px;max-width:820px;margin-left:auto;margin-right:auto;border-radius:var(--r);overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,.1),0 2px 8px rgba(0,0,0,.06);border:1px solid var(--border);position:relative}
 .hero-preview::before{content:'';position:absolute;inset:0;border-radius:var(--r);padding:1px;background:linear-gradient(135deg,rgba(108,60,232,.15),transparent 40%,transparent 60%,rgba(255,140,33,.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:1}
-.hero-preview img{width:100%;display:block}
+.hero-preview img,.hero-preview picture{width:100%;display:block}
+.hero-preview picture img{width:100%;display:block}
 
 /* ---- Section ---- */
 .section{padding:120px 28px}
@@ -154,7 +160,7 @@ img{max-width:100%;display:block}
 
 .feature-img{border-radius:var(--r);overflow:hidden;border:1px solid var(--border);aspect-ratio:4/3;background:#111;box-shadow:var(--shadow-lg);position:relative}
 .feature-img::after{content:'';position:absolute;inset:0;border-radius:var(--r);background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.3));pointer-events:none}
-.feature-img img{width:100%;height:100%;object-fit:cover}
+.feature-img img,.feature-img picture{width:100%;height:100%;object-fit:cover;display:block}
 .feature-img.glow-purple{box-shadow:0 8px 48px rgba(108,60,232,.12),0 2px 8px rgba(0,0,0,.06)}
 .feature-img.glow-orange{box-shadow:0 8px 48px rgba(255,140,33,.1),0 2px 8px rgba(0,0,0,.06)}
 
@@ -196,7 +202,31 @@ img{max-width:100%;display:block}
   .floating-cta{bottom:16px;right:16px}
   .hero-mesh{display:none}
   .pains{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr !important}
+  .faq-list{grid-template-columns:1fr !important}
 }
+
+/* How to Use */
+.steps-section{background:linear-gradient(180deg,var(--bg) 0%,rgba(250,250,252) 50%,var(--bg) 100%)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:48px}
+.step-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:32px 28px;position:relative;transition:box-shadow .3s,transform .3s}
+.step-card:hover{box-shadow:0 8px 40px rgba(108,60,232,.08);transform:translateY(-4px)}
+.step-num{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.step-card h3{font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-.01em}
+.step-card p{font-size:14.5px;color:var(--text2);line-height:1.7}
+.step-card .step-arrow{position:absolute;top:40px;right:-20px;color:var(--accent);opacity:.2;font-size:24px}
+.step-card:last-child .step-arrow{display:none}
+
+/* FAQ */
+.faq-list{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
+.faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 24px;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.faq-item:hover{border-color:rgba(108,60,232,.2);box-shadow:0 4px 20px rgba(108,60,232,.04)}
+.faq-item summary{font-size:15px;font-weight:600;color:var(--text);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'+';font-size:20px;color:var(--accent);flex-shrink:0;transition:transform .2s;font-weight:300}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item[open] summary{margin-bottom:10px}
+.faq-item p{font-size:14px;color:var(--text2);line-height:1.7;margin:0}
 </style>
 </head>
 <body>
@@ -211,6 +241,8 @@ img{max-width:100%;display:block}
     <div class="nav-right">
       <div class="nav-links">
         <a href="#features" data-i18n="nav_features">功能特性</a>
+        <a href="#howto" data-i18n="nav_howto">使用指南</a>
+        <a href="#faq" data-i18n="nav_faq">常见问题</a>
         <a href="#philosophy" data-i18n="nav_promise">我们的承诺</a>
         <a href="https://chromewebstore.google.com/detail/ihemgdpclcfmjmepdaaefcmihmedanin" target="_blank" data-i18n="nav_install">安装扩展</a>
       </div>
@@ -246,7 +278,7 @@ img{max-width:100%;display:block}
       <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/><path d="M9 12l2 2 4-4"/></svg><span data-i18n="hero_stat_local">100% 本地处理</span></div>
     </div>
     <div class="hero-preview reveal reveal-d3">
-      <img src="img/hero-promo.jpg" alt="FrameForge Product Preview">
+      <picture><source srcset="img/hero-promo.webp" type="image/webp"><img src="img/hero-promo.jpg" alt="FrameForge Product Preview"></picture>
     </div>
   </div>
 </section>
@@ -296,7 +328,7 @@ img{max-width:100%;display:block}
         </ul>
       </div>
       <div class="feature-img glow-purple">
-        <img src="img/templates.jpg" alt="12+ Professional Templates" loading="lazy">
+        <picture><source srcset="img/templates.webp" type="image/webp"><img src="img/templates.jpg" alt="12+ Professional Templates" loading="lazy"></picture>
       </div>
     </div>
 
@@ -314,7 +346,7 @@ img{max-width:100%;display:block}
         </ul>
       </div>
       <div class="feature-img glow-orange">
-        <img src="img/exif-display.jpg" alt="EXIF Parameters + Brand Logo Display" loading="lazy">
+        <picture><source srcset="img/exif-display.webp" type="image/webp"><img src="img/exif-display.jpg" alt="EXIF Parameters + Brand Logo Display" loading="lazy"></picture>
       </div>
     </div>
 
@@ -331,7 +363,7 @@ img{max-width:100%;display:block}
         </ul>
       </div>
       <div class="feature-img glow-purple">
-        <img src="img/color-palette.jpg" alt="Color Palette Extraction Effect" loading="lazy">
+        <picture><source srcset="img/color-palette.webp" type="image/webp"><img src="img/color-palette.jpg" alt="Color Palette Extraction Effect" loading="lazy"></picture>
       </div>
     </div>
 
@@ -349,7 +381,7 @@ img{max-width:100%;display:block}
         </ul>
       </div>
       <div class="feature-img glow-orange">
-        <img src="img/customization.jpg" alt="Deep Customization Panel" loading="lazy">
+        <picture><source srcset="img/customization.webp" type="image/webp"><img src="img/customization.jpg" alt="Deep Customization Panel" loading="lazy"></picture>
       </div>
     </div>
 
@@ -367,10 +399,71 @@ img{max-width:100%;display:block}
         </ul>
       </div>
       <div class="feature-img glow-purple">
-        <img src="img/export.jpg" alt="Batch Export + ZIP Packaging" loading="lazy">
+        <picture><source srcset="img/export.webp" type="image/webp"><img src="img/export.jpg" alt="Batch Export + ZIP Packaging" loading="lazy"></picture>
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- How to Use -->
+<section class="section steps-section" id="howto">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center" data-i18n="howto_label">使用指南</div>
+    <div class="section-title reveal" style="text-align:center" data-i18n="howto_title">三步搞定，比你想的更简单</div>
+    <div class="steps">
+      <div class="step-card reveal">
+        <div class="step-num">1</div>
+        <h3 data-i18n="step1_t">安装扩展</h3>
+        <p data-i18n="step1_d">点击「安装 Chrome 扩展」，一键添加到浏览器工具栏，无需注册，无需登录。</p>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step-card reveal reveal-d1">
+        <div class="step-num">2</div>
+        <h3 data-i18n="step2_t">上传照片</h3>
+        <p data-i18n="step2_d">点击工具栏图标打开编辑器，拖入或选择照片，自动读取 EXIF 参数和主色调。</p>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step-card reveal reveal-d2">
+        <div class="step-num">3</div>
+        <h3 data-i18n="step3_t">选择模板并导出</h3>
+        <p data-i18n="step3_d">挑选喜欢的模板，微调字体和配色，一键导出高清成品，支持批量处理。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section-inner">
+    <div class="section-label reveal" style="text-align:center" data-i18n="faq_label">常见问题</div>
+    <div class="section-title reveal" style="text-align:center" data-i18n="faq_title">你想知道的，都在这里</div>
+    <div class="faq-list">
+      <details class="faq-item reveal">
+        <summary data-i18n="faq1_q">FrameForge 会上传我的照片吗？</summary>
+        <p data-i18n="faq1_a">不会。所有图片处理完全在你的浏览器本地完成，照片从未离开你的设备。没有上传、没有联网、没有追踪。</p>
+      </details>
+      <details class="faq-item reveal reveal-d1">
+        <summary data-i18n="faq2_q">支持哪些图片格式？</summary>
+        <p data-i18n="faq2_a">支持 JPG、PNG、WebP 格式的照片导入。导出时可选择 JPG 或 PNG，支持全分辨率输出和 300/600 DPI 注入。</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary data-i18n="faq3_q">FrameForge 是免费的吗？</summary>
+        <p data-i18n="faq3_a">核心功能完全免费，包括所有模板、EXIF 展示、调色盘和批量导出。没有隐藏付费，没有 VIP 限制。</p>
+      </details>
+      <details class="faq-item reveal reveal-d1">
+        <summary data-i18n="faq4_q">支持哪些相机的 EXIF 信息？</summary>
+        <p data-i18n="faq4_a">支持所有主流相机的 EXIF 数据读取，包括相机型号、镜头、焦距、光圈、快门速度、ISO 等全部参数。每项参数可单独控制显示或隐藏。</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary data-i18n="faq5_q">没有 EXIF 信息的照片能用吗？</summary>
+        <p data-i18n="faq5_a">可以。即使照片没有 EXIF 数据，你仍然可以使用所有模板、调色盘和自定义文本功能。EXIF 区域会自动隐藏。</p>
+      </details>
+      <details class="faq-item reveal reveal-d1">
+        <summary data-i18n="faq6_q">需要联网才能使用吗？</summary>
+        <p data-i18n="faq6_a">不需要。FrameForge 安装后完全离线运行，不依赖任何网络服务。唯一的网络请求是首次访问时检测语言（仅判断国家代码）。</p>
+      </details>
+    </div>
   </div>
 </section>
 
@@ -431,7 +524,7 @@ img{max-width:100%;display:block}
 </footer>
 
 <script>
-const i18n={zh:{nav_features:'功能特性',nav_promise:'我们的承诺',nav_install:'安装扩展',hero_badge_tag:'Chrome 扩展',hero_badge_pro:'专业',hero_badge_privacy:'隐私优先',hero_badge_local:'本地处理',hero_title:'照片边框 & EXIF 编辑器，<br>让你的作品会说话',hero_desc:'FrameForge 自动展示拍摄参数、相机品牌 Logo、主调色盘，用相机风格的精美边框让你的照片脱颖而出。所有处理在本地完成，照片从不离开你的电脑。',hero_btn_install:'安装 Chrome 扩展',hero_btn_more:'了解更多 ↓',hero_stat_templates:'12+ 专业模板',hero_stat_exif:'EXIF 参数展示',hero_stat_local:'100% 本地处理',pain_label:'为什么需要 FrameForge',pain_title:'摄影师的痛点，我们懂',pain_desc:'分享作品到社交媒体时，想让别人知道你的拍摄参数？用通用工具加边框太简陋？我们来解决。',pain1_title:'通用工具太简陋',pain1_desc:'Canva、PS 加边框功能很基础，没有相机风格专业模板，手动排 EXIF 参数又丑又累。',pain2_title:'隐私令人担忧',pain2_desc:'很多在线工具需要上传照片到服务器处理，你的隐私和作品安全完全不受控。',pain3_title:'逐张处理太低效',pain3_desc:'每张照片都要重复调参数、加边框？FrameForge 支持批量处理，统一模板一次搞定。',feat1_label:'模板系统',feat1_title:'12+ 专业模板，一键生成相机风格边框',feat1_desc:'从经典竖排到胶片风格，每个模板都精心设计还原真实相机排版，让你的照片自带专业范。',feat1_li1_t:'经典竖排',feat1_li1_d:' — 简约相机风格，EXIF 参数纵向排列',feat1_li2_t:'宝丽来',feat1_li2_d:' — 复古即影即有效果，怀旧质感',feat1_li3_t:'胶片风格',feat1_li3_d:' — 模拟胶片底片的独特质感和排版',feat1_li4_t:'电影画幅',feat1_li4_d:' — 宽银幕电影感排版，宽幅展示',feat1_li5_t:'杂志风格',feat1_li5_d:' — 精致排版，适合作品集和社交媒体',feat2_label:'EXIF 展示',feat2_title:'自动读取 EXIF，最直观的参数展示',feat2_desc:'上传照片后自动读取全部拍摄参数，以相机风格精美展示在边框上，比任何纯 EXIF 查看器都直观。',feat2_li1_t:'自动读取',feat2_li1_d:' — 相机品牌型号、镜头、焦距、光圈、快门速度、ISO 等全部参数',feat2_li2_t:'品牌 Logo',feat2_li2_d:' — 自动匹配相机品牌矢量 Logo，专业感拉满',feat2_li3_t:'GPS 坐标',feat2_li3_d:' — 支持显示拍摄地点经纬度（如 31.23°N 121.47°E）',feat2_li4_t:'独立控制',feat2_li4_d:' — 每项参数可单独显示或隐藏',feat3_label:'调色盘',feat3_title:'自动提取照片主色调',feat3_desc:'FrameForge 自动从照片中提取主色调，以精美色卡条展示在边框底部，让你的作品更具设计感。',feat3_li1_t:'自动提取',feat3_li1_d:' — 智能算法自动识别照片主色调，无需手动选色',feat3_li2_t:'色卡条',feat3_li2_d:' — 专业色卡形式排列在边框底部',feat3_li3_t:'灵活定制',feat3_li3_d:' — 可调整色卡宽度、圆角、对齐方式',feat4_label:'深度定制',feat4_title:'每一个像素都可以调',feat4_desc:'12+ 可调参数，从字体到边框、从背景到阴影，所有元素都可以精细控制。',feat4_li1_t:'8 种字体',feat4_li1_d:' — Inter、Helvetica、Georgia 等精选字体，字距可调',feat4_li2_t:'背景样式',feat4_li2_d:' — 纯色、渐变（12 种预设 + 自定义）、模糊背景、透明',feat4_li3_t:'边框定制',feat4_li3_d:' — 边距、四角独立圆角、图片边框、投影效果',feat4_li4_t:'滤镜调整',feat4_li4_d:' — 亮度、对比度、饱和度、锐化、暗角、色温，实时直方图',feat5_label:'导出',feat5_title:'批量处理，高清导出',feat5_desc:'一次处理多张照片，统一模板一键导出，支持 JPG/PNG、DPI 注入、全分辨率输出。',feat5_li1_t:'批量处理',feat5_li1_d:' — 多张照片同时处理，统一模板设置',feat5_li2_t:'ZIP 打包',feat5_li2_d:' — 批量导出自动打包为 ZIP 下载',feat5_li3_t:'高清输出',feat5_li3_d:' — 原图/高/中/低四档画质，支持 300/600 DPI',feat5_li4_t:'格式灵活',feat5_li4_d:' — JPG 或 PNG，全分辨率不压缩',promise_label:'我们的承诺',promise_title:'纯粹、可靠、尊重用户',promise_desc:'这是 FrameForge 的核心承诺，也是我们做产品的初心。',promise1_t:'绝对隐私',promise1_d:'所有图片处理在本地浏览器完成，照片从未离开你的电脑。不上传、不联网、不追踪。',promise2_t:'免费使用',promise2_d:'核心功能完全免费，无 VIP，无隐藏付费。提供纯粹、无打扰的创作体验。',promise3_t:'打开即用',promise3_d:'无需登录或注册，Chrome 浏览器安装后立即使用，用完即走，不留痕迹。',promise4_t:'高清导出',promise4_d:'支持全分辨率输出、DPI 注入，满足社交分享和专业印刷，保证清晰锐利。',cta_title:'立即安装 FrameForge，让作品自己说话',cta_desc:'体验这款纯粹、强大、真正尊重你隐私的照片边框 & EXIF 编辑器。',cta_btn:'安装 Chrome 扩展',footer_love:'由热爱驱动',footer_privacy:'隐私政策'},en:{nav_features:'Features',nav_promise:'Our Promise',nav_install:'Install',hero_badge_tag:'Chrome Extension',hero_badge_pro:'Professional',hero_badge_privacy:'Privacy First',hero_badge_local:'Local Processing',hero_title:'Photo Frame & EXIF Editor,<br>Let Your Work Speak',hero_desc:'FrameForge automatically displays shooting parameters, camera brand logos, and color palettes — wrapping your photos in stunning camera-style frames. Everything runs locally. Your photos never leave your device.',hero_btn_install:'Install Chrome Extension',hero_btn_more:'Learn More ↓',hero_stat_templates:'12+ Pro Templates',hero_stat_exif:'EXIF Display',hero_stat_local:'100% Local Processing',pain_label:'Why FrameForge',pain_title:"We Understand Photographers' Pain",pain_desc:'Want to share your shooting parameters on social media? Generic tools are too basic? We solve this.',pain1_title:'Generic Tools Too Basic',pain1_desc:"Canva and Photoshop's frame features are rudimentary — no camera-style templates, and manually arranging EXIF data looks ugly and tedious.",pain2_title:'Privacy Concerns',pain2_desc:'Many online tools require uploading your photos to their servers. Your privacy and artwork security are completely out of your control.',pain3_title:'One-by-One Processing',pain3_desc:'Adjusting parameters and adding frames for every single photo? FrameForge supports batch processing with consistent template settings.',feat1_label:'Templates',feat1_title:'12+ Pro Templates, One-Click Camera-Style Frames',feat1_desc:'From classic vertical to film style, each template is carefully crafted to replicate authentic camera layouts, giving your photos a professional touch.',feat1_li1_t:'Classic Vertical',feat1_li1_d:' — Minimalist camera style with EXIF parameters arranged vertically',feat1_li2_t:'Polaroid',feat1_li2_d:' — Vintage instant-print effect with nostalgic feel',feat1_li3_t:'Film Style',feat1_li3_d:' — Authentic film negative texture and layout',feat1_li4_t:'Cinematic',feat1_li4_d:' — Widescreen cinematic framing, panoramic display',feat1_li5_t:'Magazine',feat1_li5_d:' — Refined typography, perfect for portfolios and social media',feat2_label:'EXIF Display',feat2_title:'Auto-Read EXIF, The Most Visual Parameter Display',feat2_desc:'Automatically reads all shooting data after upload and displays it beautifully in camera-style frames — more visual than any plain EXIF viewer.',feat2_li1_t:'Auto Read',feat2_li1_d:' — Camera make & model, lens, focal length, aperture, shutter speed, ISO, and more',feat2_li2_t:'Brand Logos',feat2_li2_d:' — Auto-matching vector camera manufacturer logos for a pro look',feat2_li3_t:'GPS Coordinates',feat2_li3_d:' — Display shooting location (e.g., 31.23°N 121.47°E)',feat2_li4_t:'Individual Control',feat2_li4_d:' — Show or hide each parameter independently',feat3_label:'Color Palette',feat3_title:'Auto-Extract Dominant Colors',feat3_desc:'FrameForge automatically extracts dominant colors from your photo and displays them as a beautiful color reference strip at the bottom of the frame.',feat3_li1_t:'Auto Extract',feat3_li1_d:' — Smart algorithm identifies dominant colors — no manual selection needed',feat3_li2_t:'Color Strip',feat3_li2_d:' — Professional color card layout at the frame bottom',feat3_li3_t:'Flexible',feat3_li3_d:' — Adjust color strip width, border radius, and alignment',feat4_label:'Customization',feat4_title:'Every Pixel is Adjustable',feat4_desc:'12+ adjustable parameters — from typography to borders, backgrounds to shadows, every element can be fine-tuned.',feat4_li1_t:'8 Fonts',feat4_li1_d:' — Inter, Helvetica, Georgia and more — letter spacing adjustable',feat4_li2_t:'Background Styles',feat4_li2_d:' — Solid, gradient (12 presets + custom), blurred, transparent',feat4_li3_t:'Frame Options',feat4_li3_d:' — Margins, per-corner border radius, image frame, drop shadows',feat4_li4_t:'Filters',feat4_li4_d:' — Brightness, contrast, saturation, sharpen, vignette, color temp — with real-time histogram',feat5_label:'Export',feat5_title:'Batch Processing, HD Export',feat5_desc:'Process multiple photos at once with consistent template settings. Supports JPG/PNG, DPI injection, and full-resolution output.',feat5_li1_t:'Batch Process',feat5_li1_d:' — Handle multiple photos simultaneously with unified template settings',feat5_li2_t:'ZIP Download',feat5_li2_d:' — Auto-package batch exports as ZIP files',feat5_li3_t:'HD Output',feat5_li3_d:' — Original/High/Medium/Low quality, supports 300/600 DPI',feat5_li4_t:'Flexible Format',feat5_li4_d:' — JPG or PNG, full resolution with no compression',promise_label:'Our Promise',promise_title:'Pure, Reliable, Respectful',promise_desc:"These are FrameForge's core promises and the principles behind our product.",promise1_t:'Absolute Privacy',promise1_d:'All image processing runs locally in your browser. Photos never leave your device. No uploads, no network, no tracking.',promise2_t:'Free to Use',promise2_d:'Core features are completely free — no VIP, no hidden fees. A pure, distraction-free creative experience.',promise3_t:'Instant Start',promise3_d:'No login or registration required. Install and start creating immediately. Use and go, no traces left.',promise4_t:'HD Export',promise4_d:'Full-resolution output with DPI injection. Perfect for social sharing and professional printing.',cta_title:'Install FrameForge Now, Let Your Work Speak',cta_desc:'Experience this pure, powerful photo frame & EXIF editor that truly respects your privacy.',cta_btn:'Install Chrome Extension',footer_love:'Driven by Passion',footer_privacy:'Privacy Policy'}};
+const i18n={zh:{nav_features:'功能特性',nav_howto:'使用指南',nav_faq:'常见问题',nav_promise:'我们的承诺',nav_install:'安装扩展',hero_badge_tag:'Chrome 扩展',hero_badge_pro:'专业',hero_badge_privacy:'隐私优先',hero_badge_local:'本地处理',hero_title:'照片边框 & EXIF 编辑器，<br>让你的作品会说话',hero_desc:'FrameForge 自动展示拍摄参数、相机品牌 Logo、主调色盘，用相机风格的精美边框让你的照片脱颖而出。所有处理在本地完成，照片从不离开你的电脑。',hero_btn_install:'安装 Chrome 扩展',hero_btn_more:'了解更多 ↓',hero_stat_templates:'12+ 专业模板',hero_stat_exif:'EXIF 参数展示',hero_stat_local:'100% 本地处理',pain_label:'为什么需要 FrameForge',pain_title:'摄影师的痛点，我们懂',pain_desc:'分享作品到社交媒体时，想让别人知道你的拍摄参数？用通用工具加边框太简陋？我们来解决。',pain1_title:'通用工具太简陋',pain1_desc:'Canva、PS 加边框功能很基础，没有相机风格专业模板，手动排 EXIF 参数又丑又累。',pain2_title:'隐私令人担忧',pain2_desc:'很多在线工具需要上传照片到服务器处理，你的隐私和作品安全完全不受控。',pain3_title:'逐张处理太低效',pain3_desc:'每张照片都要重复调参数、加边框？FrameForge 支持批量处理，统一模板一次搞定。',feat1_label:'模板系统',feat1_title:'12+ 专业模板，一键生成相机风格边框',feat1_desc:'从经典竖排到胶片风格，每个模板都精心设计还原真实相机排版，让你的照片自带专业范。',feat1_li1_t:'经典竖排',feat1_li1_d:' — 简约相机风格，EXIF 参数纵向排列',feat1_li2_t:'宝丽来',feat1_li2_d:' — 复古即影即有效果，怀旧质感',feat1_li3_t:'胶片风格',feat1_li3_d:' — 模拟胶片底片的独特质感和排版',feat1_li4_t:'电影画幅',feat1_li4_d:' — 宽银幕电影感排版，宽幅展示',feat1_li5_t:'杂志风格',feat1_li5_d:' — 精致排版，适合作品集和社交媒体',feat2_label:'EXIF 展示',feat2_title:'自动读取 EXIF，最直观的参数展示',feat2_desc:'上传照片后自动读取全部拍摄参数，以相机风格精美展示在边框上，比任何纯 EXIF 查看器都直观。',feat2_li1_t:'自动读取',feat2_li1_d:' — 相机品牌型号、镜头、焦距、光圈、快门速度、ISO 等全部参数',feat2_li2_t:'品牌 Logo',feat2_li2_d:' — 自动匹配相机品牌矢量 Logo，专业感拉满',feat2_li3_t:'GPS 坐标',feat2_li3_d:' — 支持显示拍摄地点经纬度（如 31.23°N 121.47°E）',feat2_li4_t:'独立控制',feat2_li4_d:' — 每项参数可单独显示或隐藏',feat3_label:'调色盘',feat3_title:'自动提取照片主色调',feat3_desc:'FrameForge 自动从照片中提取主色调，以精美色卡条展示在边框底部，让你的作品更具设计感。',feat3_li1_t:'自动提取',feat3_li1_d:' — 智能算法自动识别照片主色调，无需手动选色',feat3_li2_t:'色卡条',feat3_li2_d:' — 专业色卡形式排列在边框底部',feat3_li3_t:'灵活定制',feat3_li3_d:' — 可调整色卡宽度、圆角、对齐方式',feat4_label:'深度定制',feat4_title:'每一个像素都可以调',feat4_desc:'12+ 可调参数，从字体到边框、从背景到阴影，所有元素都可以精细控制。',feat4_li1_t:'8 种字体',feat4_li1_d:' — Inter、Helvetica、Georgia 等精选字体，字距可调',feat4_li2_t:'背景样式',feat4_li2_d:' — 纯色、渐变（12 种预设 + 自定义）、模糊背景、透明',feat4_li3_t:'边框定制',feat4_li3_d:' — 边距、四角独立圆角、图片边框、投影效果',feat4_li4_t:'滤镜调整',feat4_li4_d:' — 亮度、对比度、饱和度、锐化、暗角、色温，实时直方图',feat5_label:'导出',feat5_title:'批量处理，高清导出',feat5_desc:'一次处理多张照片，统一模板一键导出，支持 JPG/PNG、DPI 注入、全分辨率输出。',feat5_li1_t:'批量处理',feat5_li1_d:' — 多张照片同时处理，统一模板设置',feat5_li2_t:'ZIP 打包',feat5_li2_d:' — 批量导出自动打包为 ZIP 下载',feat5_li3_t:'高清输出',feat5_li3_d:' — 原图/高/中/低四档画质，支持 300/600 DPI',feat5_li4_t:'格式灵活',feat5_li4_d:' — JPG 或 PNG，全分辨率不压缩',promise_label:'我们的承诺',promise_title:'纯粹、可靠、尊重用户',promise_desc:'这是 FrameForge 的核心承诺，也是我们做产品的初心。',promise1_t:'绝对隐私',promise1_d:'所有图片处理在本地浏览器完成，照片从未离开你的电脑。不上传、不联网、不追踪。',promise2_t:'免费使用',promise2_d:'核心功能完全免费，无 VIP，无隐藏付费。提供纯粹、无打扰的创作体验。',promise3_t:'打开即用',promise3_d:'无需登录或注册，Chrome 浏览器安装后立即使用，用完即走，不留痕迹。',promise4_t:'高清导出',promise4_d:'支持全分辨率输出、DPI 注入，满足社交分享和专业印刷，保证清晰锐利。',cta_title:'立即安装 FrameForge，让作品自己说话',cta_desc:'体验这款纯粹、强大、真正尊重你隐私的照片边框 & EXIF 编辑器。',cta_btn:'安装 Chrome 扩展',footer_love:'由热爱驱动',footer_privacy:'隐私政策',howto_label:'使用指南',howto_title:'三步搞定，比你想的更简单',step1_t:'安装扩展',step1_d:'点击「安装 Chrome 扩展」，一键添加到浏览器工具栏，无需注册，无需登录。',step2_t:'上传照片',step2_d:'点击工具栏图标打开编辑器，拖入或选择照片，自动读取 EXIF 参数和主色调。',step3_t:'选择模板并导出',step3_d:'挑选喜欢的模板，微调字体和配色，一键导出高清成品，支持批量处理。',faq_label:'常见问题',faq_title:'你想知道的，都在这里',faq1_q:'FrameForge 会上传我的照片吗？',faq1_a:'不会。所有图片处理完全在你的浏览器本地完成，照片从未离开你的设备。没有上传、没有联网、没有追踪。',faq2_q:'支持哪些图片格式？',faq2_a:'支持 JPG、PNG、WebP 格式的照片导入。导出时可选择 JPG 或 PNG，支持全分辨率输出和 300/600 DPI 注入。',faq3_q:'FrameForge 是免费的吗？',faq3_a:'核心功能完全免费，包括所有模板、EXIF 展示、调色盘和批量导出。没有隐藏付费，没有 VIP 限制。',faq4_q:'支持哪些相机的 EXIF 信息？',faq4_a:'支持所有主流相机的 EXIF 数据读取，包括相机型号、镜头、焦距、光圈、快门速度、ISO 等全部参数。每项参数可单独控制显示或隐藏。',faq5_q:'没有 EXIF 信息的照片能用吗？',faq5_a:'可以。即使照片没有 EXIF 数据，你仍然可以使用所有模板、调色盘和自定义文本功能。EXIF 区域会自动隐藏。',faq6_q:'需要联网才能使用吗？',faq6_a:'不需要。FrameForge 安装后完全离线运行，不依赖任何网络服务。唯一的网络请求是首次访问时检测语言（仅判断国家代码）。'},en:{nav_features:'Features',nav_howto:'How to Use',nav_faq:'FAQ',nav_promise:'Our Promise',nav_install:'Install',hero_badge_tag:'Chrome Extension',hero_badge_pro:'Professional',hero_badge_privacy:'Privacy First',hero_badge_local:'Local Processing',hero_title:'Photo Frame & EXIF Editor,<br>Let Your Work Speak',hero_desc:'FrameForge automatically displays shooting parameters, camera brand logos, and color palettes — wrapping your photos in stunning camera-style frames. Everything runs locally. Your photos never leave your device.',hero_btn_install:'Install Chrome Extension',hero_btn_more:'Learn More ↓',hero_stat_templates:'12+ Pro Templates',hero_stat_exif:'EXIF Display',hero_stat_local:'100% Local Processing',pain_label:'Why FrameForge',pain_title:"We Understand Photographers' Pain",pain_desc:'Want to share your shooting parameters on social media? Generic tools are too basic? We solve this.',pain1_title:'Generic Tools Too Basic',pain1_desc:"Canva and Photoshop's frame features are rudimentary — no camera-style templates, and manually arranging EXIF data looks ugly and tedious.",pain2_title:'Privacy Concerns',pain2_desc:'Many online tools require uploading your photos to their servers. Your privacy and artwork security are completely out of your control.',pain3_title:'One-by-One Processing',pain3_desc:'Adjusting parameters and adding frames for every single photo? FrameForge supports batch processing with consistent template settings.',feat1_label:'Templates',feat1_title:'12+ Pro Templates, One-Click Camera-Style Frames',feat1_desc:'From classic vertical to film style, each template is carefully crafted to replicate authentic camera layouts, giving your photos a professional touch.',feat1_li1_t:'Classic Vertical',feat1_li1_d:' — Minimalist camera style with EXIF parameters arranged vertically',feat1_li2_t:'Polaroid',feat1_li2_d:' — Vintage instant-print effect with nostalgic feel',feat1_li3_t:'Film Style',feat1_li3_d:' — Authentic film negative texture and layout',feat1_li4_t:'Cinematic',feat1_li4_d:' — Widescreen cinematic framing, panoramic display',feat1_li5_t:'Magazine',feat1_li5_d:' — Refined typography, perfect for portfolios and social media',feat2_label:'EXIF Display',feat2_title:'Auto-Read EXIF, The Most Visual Parameter Display',feat2_desc:'Automatically reads all shooting data after upload and displays it beautifully in camera-style frames — more visual than any plain EXIF viewer.',feat2_li1_t:'Auto Read',feat2_li1_d:' — Camera make & model, lens, focal length, aperture, shutter speed, ISO, and more',feat2_li2_t:'Brand Logos',feat2_li2_d:' — Auto-matching vector camera manufacturer logos for a pro look',feat2_li3_t:'GPS Coordinates',feat2_li3_d:' — Display shooting location (e.g., 31.23°N 121.47°E)',feat2_li4_t:'Individual Control',feat2_li4_d:' — Show or hide each parameter independently',feat3_label:'Color Palette',feat3_title:'Auto-Extract Dominant Colors',feat3_desc:'FrameForge automatically extracts dominant colors from your photo and displays them as a beautiful color reference strip at the bottom of the frame.',feat3_li1_t:'Auto Extract',feat3_li1_d:' — Smart algorithm identifies dominant colors — no manual selection needed',feat3_li2_t:'Color Strip',feat3_li2_d:' — Professional color card layout at the frame bottom',feat3_li3_t:'Flexible',feat3_li3_d:' — Adjust color strip width, border radius, and alignment',feat4_label:'Customization',feat4_title:'Every Pixel is Adjustable',feat4_desc:'12+ adjustable parameters — from typography to borders, backgrounds to shadows, every element can be fine-tuned.',feat4_li1_t:'8 Fonts',feat4_li1_d:' — Inter, Helvetica, Georgia and more — letter spacing adjustable',feat4_li2_t:'Background Styles',feat4_li2_d:' — Solid, gradient (12 presets + custom), blurred, transparent',feat4_li3_t:'Frame Options',feat4_li3_d:' — Margins, per-corner border radius, image frame, drop shadows',feat4_li4_t:'Filters',feat4_li4_d:' — Brightness, contrast, saturation, sharpen, vignette, color temp — with real-time histogram',feat5_label:'Export',feat5_title:'Batch Processing, HD Export',feat5_desc:'Process multiple photos at once with consistent template settings. Supports JPG/PNG, DPI injection, and full-resolution output.',feat5_li1_t:'Batch Process',feat5_li1_d:' — Handle multiple photos simultaneously with unified template settings',feat5_li2_t:'ZIP Download',feat5_li2_d:' — Auto-package batch exports as ZIP files',feat5_li3_t:'HD Output',feat5_li3_d:' — Original/High/Medium/Low quality, supports 300/600 DPI',feat5_li4_t:'Flexible Format',feat5_li4_d:' — JPG or PNG, full resolution with no compression',promise_label:'Our Promise',promise_title:'Pure, Reliable, Respectful',promise_desc:"These are FrameForge's core promises and the principles behind our product.",promise1_t:'Absolute Privacy',promise1_d:'All image processing runs locally in your browser. Photos never leave your device. No uploads, no network, no tracking.',promise2_t:'Free to Use',promise2_d:'Core features are completely free — no VIP, no hidden fees. A pure, distraction-free creative experience.',promise3_t:'Instant Start',promise3_d:'No login or registration required. Install and start creating immediately. Use and go, no traces left.',promise4_t:'HD Export',promise4_d:'Full-resolution output with DPI injection. Perfect for social sharing and professional printing.',cta_title:'Install FrameForge Now, Let Your Work Speak',cta_desc:'Experience this pure, powerful photo frame & EXIF editor that truly respects your privacy.',cta_btn:'Install Chrome Extension',footer_love:'Driven by Passion',footer_privacy:'Privacy Policy',howto_label:'How to Use',howto_title:'Three Steps, Simpler Than You Think',step1_t:'Install Extension',step1_d:'Click "Install Chrome Extension" to add it to your browser toolbar. No registration, no login required.',step2_t:'Upload Photo',step2_d:'Click the toolbar icon to open the editor. Drag in or select a photo — EXIF data and color palette are auto-extracted.',step3_t:'Choose Template & Export',step3_d:'Pick your favorite template, fine-tune fonts and colors, then export in HD. Batch processing supported.',faq_label:'FAQ',faq_title:'Everything You Want to Know',faq1_q:'Does FrameForge upload my photos?',faq1_a:'No. All image processing happens entirely in your browser. Your photos never leave your device. No uploads, no network, no tracking.',faq2_q:'What image formats are supported?',faq2_a:'Supports JPG, PNG, and WebP for import. Export as JPG or PNG with full-resolution output and 300/600 DPI injection.',faq3_q:'Is FrameForge free?',faq3_a:'Core features are completely free, including all templates, EXIF display, color palettes, and batch export. No hidden fees, no VIP restrictions.',faq4_q:'Which cameras\' EXIF data are supported?',faq4_a:'Supports EXIF data from all major camera brands — camera model, lens, focal length, aperture, shutter speed, ISO, and more. Each parameter can be individually shown or hidden.',faq5_q:'Can I use photos without EXIF data?',faq5_a:'Yes. Even without EXIF data, you can use all templates, color palettes, and custom text features. The EXIF area auto-hides when no data is found.',faq6_q:'Do I need internet to use it?',faq6_a:'No. FrameForge runs entirely offline after installation. The only network request is a one-time language detection on first visit (country code only).'}};
 
 let currentLang='zh';
 function switchLang(lang){
