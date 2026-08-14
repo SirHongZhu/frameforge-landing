@@ -436,6 +436,7 @@ const i18n={zh:{nav_features:'功能特性',nav_promise:'我们的承诺',nav_in
 let currentLang='zh';
 function switchLang(lang){
   currentLang=lang;
+  localStorage.setItem('frameforge-lang',lang);
   document.getElementById('langZh').classList.toggle('active',lang==='zh');
   document.getElementById('langEn').classList.toggle('active',lang==='en');
   document.documentElement.lang=lang==='zh'?'zh-CN':'en';
@@ -443,6 +444,28 @@ function switchLang(lang){
   document.querySelectorAll('[data-i18n-html]').forEach(el=>{const key=el.getAttribute('data-i18n-html');if(i18n[lang][key])el.innerHTML=i18n[lang][key]});
   document.title=lang==='zh'?'FrameForge - 照片边框 & EXIF 编辑器 | 专业摄影师的选择':'FrameForge - Photo Frame & EXIF Editor | Professional Photographer\'s Choice';
 }
+
+/* Auto-detect language by IP geolocation */
+function initLang(){
+  // 1. Check localStorage for user's previous manual choice
+  var saved=localStorage.getItem('frameforge-lang');
+  if(saved==='zh'||saved==='en'){switchLang(saved);return}
+  // 2. First visit: detect by IP
+  fetch('https://ipapi.co/json/',{signal:AbortSignal.timeout(3000)})
+    .then(function(r){return r.json()})
+    .then(function(data){
+      var lang=(data&&data.country_code==='CN')?'zh':'en';
+      localStorage.setItem('frameforge-lang',lang);
+      switchLang(lang);
+    })
+    .catch(function(){
+      // Fallback: browser language
+      var lang=(navigator.language&&navigator.language.startsWith('zh'))?'zh':'en';
+      localStorage.setItem('frameforge-lang',lang);
+      switchLang(lang);
+    });
+}
+initLang();
 
 // Reveal on scroll
 const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('visible')})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
