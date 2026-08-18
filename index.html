@@ -8,6 +8,15 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20x='2'%20y='2'%20width='28'%20height='28'%20rx='6'%20fill='%236C3CE8'/%3E%3Crect%20x='6'%20y='6'%20width='20'%20height='20'%20rx='3'%20fill='none'%20stroke='%23fff'%20stroke-width='1.5'/%3E%3Cpath%20d='M20%2022l4-4v6h-6z'%20fill='%23FF8C21'/%3E%3C/svg%3E">
 
 <!-- Preconnect -->
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "y46rxdk84x");
+</script>
+
 <link rel="preconnect" href="https://ipapi.co" crossorigin>
 
 <!-- Primary Meta Tags -->
@@ -244,7 +253,7 @@ img{max-width:100%;display:block}
         <a href="#howto" data-i18n="nav_howto">使用指南</a>
         <a href="#faq" data-i18n="nav_faq">常见问题</a>
         <a href="#philosophy" data-i18n="nav_promise">我们的承诺</a>
-        <a href="https://chromewebstore.google.com/detail/frameforge-photo-frame-ed/ihemgdpolcfmjmepdaaefcmihmedanin" target="_blank" data-i18n="nav_install">安装扩展</a>
+        <a href="https://chromewebstore.google.com/detail/frameforge-photo-frame-ed/ihemgdpolcfmjmepdaaefcmihmedanin" target="_blank" data-i18n="nav_install" onclick="clarity('event','click_install_nav')">安装扩展</a>
       </div>
       <div class="lang-toggle">
         <button id="langZh" class="active" onclick="switchLang('zh')">中文</button>
@@ -266,7 +275,7 @@ img{max-width:100%;display:block}
     <h1 class="reveal reveal-d1" data-i18n-html="hero_title">照片边框 & EXIF 编辑器，<br>让你的作品会说话</h1>
     <p class="reveal reveal-d2" data-i18n="hero_desc">FrameForge 自动展示拍摄参数、相机品牌 Logo、主调色盘，用相机风格的精美边框让你的照片脱颖而出。所有处理在本地完成，照片从不离开你的电脑。</p>
     <div class="hero-actions reveal reveal-d2">
-      <a href="https://chromewebstore.google.com/detail/frameforge-photo-frame-ed/ihemgdpolcfmjmepdaaefcmihmedanin" target="_blank" class="btn btn-primary">
+      <a href="https://chromewebstore.google.com/detail/frameforge-photo-frame-ed/ihemgdpolcfmjmepdaaefcmihmedanin" target="_blank" class="btn btn-primary" onclick="clarity('event','click_install_hero')">
         <svg viewBox="0 0 24 24"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm-1.2 17.4l-1.4-1.4L7 18.4V6.6h10.8v7.2l-7.6 3.6z"/></svg>
         <span data-i18n="hero_btn_install">安装 Chrome 扩展</span>
       </a>
@@ -503,7 +512,7 @@ img{max-width:100%;display:block}
   <h2 class="reveal" data-i18n="cta_title">立即安装 FrameForge，让作品自己说话</h2>
   <p class="reveal" data-i18n="cta_desc">体验这款纯粹、强大、真正尊重你隐私的照片边框 & EXIF 编辑器。</p>
   <div class="hero-actions reveal">
-    <a href="https://chromewebstore.google.com/detail/frameforge-photo-frame-ed/ihemgdpolcfmjmepdaaefcmihmedanin" target="_blank" class="btn btn-primary">
+    <a href="https://chromewebstore.google.com/detail/frameforge-photo-frame-ed/ihemgdpolcfmjmepdaaefcmihmedanin" target="_blank" class="btn btn-primary" onclick="clarity('event','click_install_cta')">
       <svg viewBox="0 0 24 24" style="fill:#fff"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm-1.2 17.4l-1.4-1.4L7 18.4V6.6h10.8v7.2l-7.6 3.6z"/></svg>
       <span data-i18n="cta_btn">安装 Chrome 扩展</span>
     </a>
@@ -512,7 +521,7 @@ img{max-width:100%;display:block}
 
 <!-- Floating CTA -->
 <div class="floating-cta" id="floatingCta">
-  <a href="https://chromewebstore.google.com/detail/frameforge-photo-frame-ed/ihemgdpolcfmjmepdaaefcmihmedanin" target="_blank" class="btn btn-primary">
+  <a href="https://chromewebstore.google.com/detail/frameforge-photo-frame-ed/ihemgdpolcfmjmepdaaefcmihmedanin" target="_blank" class="btn btn-primary" onclick="clarity('event','click_install_floating')">
     <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#fff"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm-1.2 17.4l-1.4-1.4L7 18.4V6.6h10.8v7.2l-7.6 3.6z"/></svg>
     <span data-i18n="hero_btn_install">安装 Chrome 扩展</span>
   </a>
